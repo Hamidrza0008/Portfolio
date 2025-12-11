@@ -69,14 +69,14 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 mt-6">
           <button
-            className="bg-orange-600 text-white h-10 w-32 rounded-3xl hover:bg-orange-700"
+            className="bg-orange-600 text-white cursor-pointer h-10 w-32 rounded-3xl hover:bg-orange-700"
             onClick={() => document.getElementById("contactme")?.scrollIntoView({ behavior: "smooth" })}
           >
             Hire Me
           </button>
 
           <button
-            className="bg-orange-600 text-white h-10 w-32 rounded-3xl hover:bg-orange-700"
+            className="bg-orange-600 text-white cursor-pointer h-10 w-32 rounded-3xl hover:bg-orange-700"
             onClick={() => window.open('/Hamid-cv.pdf', '_blank')}
           >
             Download CV

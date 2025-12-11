@@ -1,39 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("home");
-
+  const [active, setActive] = useState("home"); 
+  const [isClicking, setIsClicking] = useState(false); 
   const navItems = ["home", "skills", "projects", "about", "contactme"];
+  const observerRef = useRef(null); 
 
-  // Scroll to section and set active item
   const scrollToSection = (id) => {
+    setIsClicking(true);
+
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setOpen(false);
+
+    // 💡 Set active immediately so underline updates
     setActive(id);
+    setOpen(false);
+
+    // Remove clicking state after animation duration
+    setTimeout(() => {
+      setIsClicking(false);
+    }, 700); 
   };
 
-  // Update active section based on scroll
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + window.innerHeight / 3;
-      navItems.forEach((id) => {
-        const section = document.getElementById(id);
-        if (section) {
-          const top = section.offsetTop;
-          const bottom = top + section.offsetHeight;
-          if (scrollPos >= top && scrollPos < bottom) {
-            setActive(id);
-          }
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (isClicking) return; // Ignore during click scroll
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
         }
       });
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  // Desktop animation
+    observerRef.current = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
+    navItems.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observerRef.current.observe(section);
+    });
+
+    return () => observerRef.current && observerRef.current.disconnect();
+  }, [isClicking]);
+
+  // GSAP animation for desktop nav
   useEffect(() => {
     if (window.innerWidth >= 768) {
       gsap.set(".nav-item", { y: -70 });
@@ -48,17 +67,12 @@ export default function Navbar() {
 
   // Disable scroll when sidebar is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = open ? "hidden" : "auto";
   }, [open]);
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md shadow-lg">
       <div className="max-w-screen-xl mx-auto h-fit py-5 flex items-center justify-between px-6 md:px-14">
-        {/* Logo */}
         <h2
           onClick={() => scrollToSection("home")}
           className="cursor-pointer bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent text-3xl font-bold nav-item"
@@ -66,7 +80,6 @@ export default function Navbar() {
           Hamid Rza
         </h2>
 
-        {/* Desktop Menu */}
         <ul className="hidden md:flex items-center space-x-10 text-white font-medium">
           {navItems.map((item, idx) => (
             <li key={idx} className="cursor-pointer nav-item">
@@ -84,7 +97,6 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop Hire Me Button */}
         <button
           onClick={() => scrollToSection("contactme")}
           className="hidden md:block bg-orange-600 text-white h-10 w-28 rounded-3xl hover:bg-orange-700 transition-all cursor-pointer nav-item"
@@ -92,7 +104,6 @@ export default function Navbar() {
           Hire Me
         </button>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden text-white text-3xl cursor-pointer"
@@ -101,7 +112,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu with full frosted effect */}
       <div
         className={`fixed top-0 left-0 w-64 h-screen
           bg-black/50 backdrop-blur-4xl border border-white/20 shadow-2xl text-white p-6 pt-24 space-y-6

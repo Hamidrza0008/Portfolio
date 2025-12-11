@@ -54,7 +54,7 @@ export default function AboutMe() {
   }, []);
 
   return (
-    <div className="bg-black text-white min-h-screen w-full scroll-mt-20 px-4 sm:px-6 md:px-20" id="about">
+    <div className="bg-black text-white min-h-screen w-full scroll-mt-14 px-4 sm:px-6 md:px-20" id="about">
       <h1 className="text-3xl md:mx-auto md:w-fit text-center sm:text-left pt-5 fire-text bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent px-3 font-bold">
         About Me
       </h1>

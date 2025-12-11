@@ -20,3 +20,15 @@ html {
 body {
   overflow-x: hidden;
 }
+
+/* Remove all horizontal scroll issues */
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+  }
+}

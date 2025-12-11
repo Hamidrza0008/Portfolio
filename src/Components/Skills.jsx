@@ -36,7 +36,7 @@ export default function Skills() {
 
 
   return (
-    <div className="bg-black w-full px-4 sm:px-6 md:px-20 py-10" id="skills">
+    <div className="bg-black w-full scroll-mt-10 px-4 sm:px-6 md:px-20 py-10" id="skills">
       <h1 className="text-3xl text-center pt-5 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold">
         Skills
       </h1>

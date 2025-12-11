@@ -1,13 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import currency from "../assets/projectImg/currency.png";
 import expense from "../assets/projectImg/expense.png";
 import todo from "../assets/projectImg/todo.png";
 import weather from "../assets/projectImg/weather.png";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
   {
@@ -41,7 +38,8 @@ export default function Projects() {
 
   useEffect(() => {
     containerRef.current.forEach((card) => {
-      gsap.fromTo(
+      // Create GSAP animation, paused initially
+      const anim = gsap.fromTo(
         card,
         { opacity: 0, y: 50 },
         {
@@ -49,19 +47,25 @@ export default function Projects() {
           y: 0,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reset", // <-- animate again on scroll back
-          },
+          paused: true,
         }
       );
-    });
 
-    // Cleanup ScrollTriggers on unmount
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
+      // IntersectionObserver to trigger animation when card enters viewport
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              anim.play();
+              obs.unobserve(entry.target); // optional: animate only once
+            }
+          });
+        },
+        { threshold: 0.1 } // trigger when 10% visible
+      );
+
+      observer.observe(card);
+    });
   }, []);
 
   const handleMouseEnter = (index) => {
@@ -86,7 +90,7 @@ export default function Projects() {
 
   return (
     <div
-      className="w-full bg-black text-white scroll-mt-20 px-4 sm:px-6 md:px-20 overflow-hidden py-10"
+      className="w-full bg-black text-white scroll-mt-6 px-4 sm:px-6 md:px-20 overflow-hidden py-10"
       id="projects"
     >
       <h1 className="text-3xl md:mx-auto md:w-fit text-center sm:text-left pt-5 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent px-3 font-bold">
