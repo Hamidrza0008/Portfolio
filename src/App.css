@@ -1,0 +1,24 @@
+
+
+.fire {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, orange, red);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: fadeMove 0.6s linear forwards;
+  z-index: 9999;
+}
+
+@keyframes fadeMove {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -80%) scale(0.1);
+  }
+}
