@@ -34,78 +34,88 @@ const projectsData = [
 ];
 
 export default function Projects() {
-  const containerRef = useRef([]);
+  const cardsRef = useRef([]);
 
   useEffect(() => {
-    containerRef.current.forEach((card) => {
-      // Create GSAP animation, paused initially
-      const anim = gsap.fromTo(
-        card,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          paused: true,
-        }
-      );
+    const cards = cardsRef.current;
 
-      // IntersectionObserver to trigger animation when card enters viewport
-      const observer = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              anim.play();
-              obs.unobserve(entry.target); // optional: animate only once
-            }
-          });
-        },
-        { threshold: 0.1 } // trigger when 10% visible
-      );
+    // 🔹 initial hidden state
+    gsap.set(cards, { opacity: 0, y: 50 });
 
-      observer.observe(card);
-    });
+    const animateIn = (card) => {
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+    };
+
+    const animateOut = (card) => {
+      gsap.set(card, {
+        opacity: 0,
+        y: 50,
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateIn(entry.target); // 🔥 every enter
+          } else {
+            animateOut(entry.target); // 🔥 reset on exit
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
   }, []);
 
   const handleMouseEnter = (index) => {
-    gsap.to(containerRef.current[index], {
+    gsap.to(cardsRef.current[index], {
       scale: 1.05,
       rotation: 3,
       boxShadow: "0 0 20px rgba(255,165,0,0.6)",
-      duration: 0.4,
+      duration: 0.3,
       ease: "power2.out",
     });
   };
 
   const handleMouseLeave = (index) => {
-    gsap.to(containerRef.current[index], {
+    gsap.to(cardsRef.current[index], {
       scale: 1,
       rotation: 0,
       boxShadow: "0 0 0 rgba(0,0,0,0)",
-      duration: 0.4,
+      duration: 0.3,
       ease: "power2.out",
     });
   };
 
   return (
     <div
-      className="w-full bg-black text-white scroll-mt-6 px-4 sm:px-6 md:px-20 overflow-hidden py-10"
       id="projects"
+      className="w-full bg-black text-white scroll-mt-20 px-4 sm:px-6 md:px-20 py-10 overflow-hidden"
     >
-      <h1 className="text-3xl md:mx-auto md:w-fit text-center sm:text-left pt-5 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent px-3 font-bold">
+      <h1 className="text-3xl text-center pt-5 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold">
         Projects
       </h1>
-      <p className="text-white md:mx-auto md:w-fit md:text-center text-center sm:text-left pt-2 max-w-2xl mx-auto sm:mx-0">
-        Explore my portfolio of responsive and interactive web applications that showcase my skills in React, Tailwind, and modern web development.
+
+      <p className="text-white text-center pt-2 max-w-2xl mx-auto">
+        Explore my portfolio of responsive and interactive web applications that
+        showcase my skills in React, Tailwind, and modern web development.
       </p>
 
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 mx-auto max-w-6xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6 max-w-6xl mx-auto">
         {projectsData.map((proj, index) => (
           <div
             key={index}
-            ref={(el) => (containerRef.current[index] = el)}
-            className="project-card bg-white/10 h-fit backdrop-blur-lg p-4 rounded-xl shadow-lg flex flex-col items-center transition-all duration-300"
+            ref={(el) => (cardsRef.current[index] = el)}
+            className="project-card bg-white/10 backdrop-blur-lg p-4 rounded-xl shadow-lg flex flex-col items-center transition-all duration-300"
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={() => handleMouseLeave(index)}
           >
@@ -117,11 +127,14 @@ export default function Projects() {
             <h3 className="text-lg font-semibold text-orange-400 mt-3 text-center">
               {proj.title}
             </h3>
-            <p className="text-sm text-gray-300 text-center mt-1">{proj.desc}</p>
+            <p className="text-sm text-gray-300 text-center mt-1">
+              {proj.desc}
+            </p>
             <a
-              className="hover:text-blue-500 text-center mt-2"
               href={proj.link}
               target="_blank"
+              rel="noreferrer"
+              className="hover:text-blue-500 mt-2"
             >
               Visit
             </a>

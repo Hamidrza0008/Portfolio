@@ -3,9 +3,6 @@ import bg from "../assets/img/bg.png";
 import circle from "../assets/img/circle.png";
 import profile from "../assets/img/profile.jpeg";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutMe() {
   const floatRef = useRef(null);
@@ -13,44 +10,50 @@ export default function AboutMe() {
   const rightRef = useRef(null);
 
   useEffect(() => {
-    // Floating animation
+    // Floating animation (same as before)
     gsap.to(floatRef.current, {
       y: -50,
       duration: 3,
       repeat: -1,
       yoyo: true,
-      ease: "power1.inOut"
+      ease: "power1.inOut",
     });
 
-    // Left section slide-in
-    gsap.set(leftRef.current, { opacity: 0, x: -100 });
-    gsap.to(leftRef.current, {
-      opacity: 1,
-      x: 0,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: leftRef.current,
-        start: "top 90%",
-        toggleActions: "play reverse play reverse",
-        invalidateOnRefresh: true, // ensures proper trigger on resize
-      }
-    });
+    // LEFT animation
+    const leftAnim = gsap.fromTo(
+      leftRef.current,
+      { opacity: 0, x: -100 },
+      { opacity: 1, x: 0, duration: 1, ease: "power3.out", paused: true }
+    );
 
-    // Right section slide-in
-    gsap.set(rightRef.current, { opacity: 0, x: 100 });
-    gsap.to(rightRef.current, {
-      opacity: 1,
-      x: 0,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: rightRef.current,
-        start: "top 90%",
-        toggleActions: "play reverse play reverse",
-        invalidateOnRefresh: true,
-      }
-    });
+    // RIGHT animation
+    const rightAnim = gsap.fromTo(
+      rightRef.current,
+      { opacity: 0, x: 100 },
+      { opacity: 1, x: 0, duration: 1, ease: "power3.out", paused: true }
+    );
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === leftRef.current) leftAnim.play();
+            if (entry.target === rightRef.current) rightAnim.play();
+            obs.unobserve(entry.target); // 🔥 ek hi baar chale
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(leftRef.current);
+    observer.observe(rightRef.current);
+
+    return () => {
+      observer.disconnect();
+      leftAnim.kill();
+      rightAnim.kill();
+    };
   }, []);
 
   return (
@@ -85,14 +88,16 @@ export default function AboutMe() {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-8 mt-8">
-            <button className="bg-orange-600 text-white h-10 w-28 rounded-3xl hover:bg-orange-700"
-              onClick={() => {
-                document.getElementById("contactme")?.scrollIntoView({ behavior: "smooth" });
-              }}>
+            <button className="bg-orange-600 text-white h-10 w-28 rounded-3xl hover:bg-orange-700">
               Hire Me
             </button>
 
-            <button className="bg-orange-600 text-white h-10 w-28 rounded-3xl hover:bg-orange-700" onClick={() => window.open('/Hamid-cv.pdf', '_blank')}>
+            <button
+              className="bg-orange-600 text-white cursor-pointer h-10 w-32 rounded-3xl hover:bg-orange-700"
+              onClick={() =>
+                window.open(`${import.meta.env.BASE_URL}Hamid-cv.pdf`, "_blank")
+              }
+            >
               Download CV
             </button>
           </div>

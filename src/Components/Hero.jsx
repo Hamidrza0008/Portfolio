@@ -77,10 +77,11 @@ export default function Hero() {
 
           <button
             className="bg-orange-600 text-white cursor-pointer h-10 w-32 rounded-3xl hover:bg-orange-700"
-            onClick={() => window.open('/Hamid-cv.pdf', '_blank')}
+            onClick={() => window.open(`${import.meta.env.BASE_URL}Hamid-cv.pdf`, '_blank')}
           >
             Download CV
           </button>
+
         </div>
 
         {/* Social Icons */}

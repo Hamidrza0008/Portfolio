@@ -1,42 +1,55 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import tailwind from "../assets/img/tailwind.svg";
 import gsapLogo from "../assets/img/gsap.png";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Skills() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-  const cards = containerRef.current.querySelectorAll(".skill-card");
+    const cards = containerRef.current.querySelectorAll(".skill-card");
 
-  cards.forEach((card, i) => {
-    gsap.fromTo(
-      card,
-      { opacity: 0, scale: 0.8, rotation: -5 },
-      {
-        opacity: 1,
-        scale: 1,
-        rotation: 0,
-        duration: 0.8,
-        ease: "elastic.out(1, 0.5)",
-        scrollTrigger: {
-          trigger: card,
-          start: "top 90%",
-          end: "bottom 10%",
-          toggleActions: "play reverse play reverse", // repeat smoothly
-          // markers: true, // debugging ke liye
-        },
-      }
+    const animateIn = () => {
+      gsap.fromTo(
+        cards,
+        { opacity: 0, scale: 0.85, y: 60 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.6)",
+          stagger: 0.12,
+        }
+      );
+    };
+
+    const animateOut = () => {
+      gsap.set(cards, { opacity: 0, scale: 0.85, y: 60 });
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          animateIn(); // 🔥 har baar enter pe
+        } else {
+          animateOut(); // 🔥 exit pe reset
+        }
+      },
+      { threshold: 0.3 }
     );
-  });
-}, []);
 
+    observer.observe(containerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="bg-black w-full scroll-mt-10 px-4 sm:px-6 md:px-20 py-10" id="skills">
+    <div
+      id="skills"
+      ref={containerRef}
+      className="bg-black w-full scroll-mt-10 px-4 sm:px-6 md:px-20 py-10"
+    >
       <h1 className="text-3xl text-center pt-5 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold">
         Skills
       </h1>
@@ -46,82 +59,34 @@ export default function Skills() {
         professional, functional, and visually appealing websites.
       </p>
 
-      <div
-        ref={containerRef}
-        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6 max-w-6xl mx-auto"
-      >
-        {/* HTML */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-brands fa-html5 fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">HTML5</h1>
-        </div>
-
-        {/* CSS */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-brands fa-css3-alt fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">CSS</h1>
-        </div>
-
-        {/* JS */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-brands fa-js fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">JAVASCRIPT</h1>
-        </div>
-
-        {/* React */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-brands fa-react fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">REACT</h1>
-        </div>
-
-        {/* Tailwind */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <img src={tailwind} className="h-8 w-20 invert" />
-          <h1 className="text-orange-500">TAILWIND</h1>
-        </div>
-
-        {/* Python */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-brands fa-python fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">PYTHON</h1>
-        </div>
-
-        {/* GSAP */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <img src={gsapLogo} className="h-16 invert" />
-          <h1 className="text-orange-500">GSAP</h1>
-        </div>
-
-        {/* GitHub */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-brands fa-github fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">GIT & GITHUB</h1>
-        </div>
-
-        {/* AI */}
-        <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center 
-                        rounded-2xl space-y-3 border border-transparent 
-                        hover:border-orange-500 transition-all duration-200">
-          <i className="fa-solid fa-brain fa-2x text-orange-500"></i>
-          <h1 className="text-orange-500">AI</h1>
-        </div>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6 max-w-6xl mx-auto">
+        <Skill icon="fa-html5" label="HTML5" />
+        <Skill icon="fa-css3-alt" label="CSS" />
+        <Skill icon="fa-js" label="JAVASCRIPT" />
+        <Skill icon="fa-react" label="REACT" />
+        <SkillImg img={tailwind} label="TAILWIND" />
+        <Skill icon="fa-python" label="PYTHON" />
+        <SkillImg img={gsapLogo} label="GSAP" />
+        <Skill icon="fa-github" label="GIT & GITHUB" />
+        <Skill icon="fa-brain" label="AI" solid />
       </div>
     </div>
   );
 }
+
+/* 🔹 Reusable components */
+const Skill = ({ icon, label, solid }) => (
+  <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center rounded-2xl space-y-3 border border-transparent hover:border-orange-500 transition-all duration-200">
+    <i
+      className={`fa-${solid ? "solid" : "brands"} ${icon} fa-2x text-orange-500`}
+    ></i>
+    <h1 className="text-orange-500">{label}</h1>
+  </div>
+);
+
+const SkillImg = ({ img, label }) => (
+  <div className="skill-card h-36 bg-[#1b1b1b] flex flex-col items-center justify-center rounded-2xl space-y-3 border border-transparent hover:border-orange-500 transition-all duration-200">
+    <img src={img} className="h-10 invert" />
+    <h1 className="text-orange-500">{label}</h1>
+  </div>
+);
