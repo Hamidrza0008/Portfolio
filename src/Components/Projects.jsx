@@ -8,6 +8,14 @@ import taskro from "../assets/projectImg/Taskro.png"
 
 const projectsData = [
   {
+    featured: true,
+    title: "DevReview",
+    desc: "DevReview is a modern full-stack developer community platform where developers showcase projects, receive feedback, discover other developers, and build a professional portfolio. It ships secure signup/login with email OTP verification, JWT & cookie-based authentication, forgot/reset password, and full profile + project CRUD with a like & review system. Search and filtering power project discovery, Cloudinary handles image uploads, and every route is protected with a fully responsive dashboard built for production.",
+    tags: ["Next.js", "Node.js", "Express.js", "MongoDB", "JWT & OTP Auth", "Cloudinary"],
+    liveLink: "https://dev-reiview.vercel.app",
+    codeLink: "https://github.com/hamid008/DevReview",
+  },
+  {
     img: lotuscakesin,
     title: "Lotus Cakes",
     desc: "Lotus Cakes is a full-stack e-commerce web application developed for online cake ordering and management. The platform allows users to browse products, add items to the cart, place orders, and manage their accounts securely through authentication. An admin dashboard is provided for managing products, orders, and users. The project is built using Next.js, React.js, JavaScript, Tailwind CSS, MySQL, and JWT Authentication. The application is deployed on Vercel, while the MySQL database is hosted on Railway, ensuring reliable performance and scalability.",
@@ -101,7 +109,7 @@ export default function Projects() {
       className="w-full bg-black text-white scroll-mt-20 px-4 sm:px-6 md:px-20 py-16 overflow-hidden"
     >
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold inline-block pb-2">
+        <h1 className="heading-shine text-4xl md:text-5xl bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold inline-block pb-2">
           Projects
         </h1>
         <p className="text-white text-center pt-3 max-w-2xl mx-auto text-sm sm:text-base opacity-90">
@@ -115,16 +123,34 @@ export default function Projects() {
           <div
             key={index}
             ref={(el) => (cardsRef.current[index] = el)}
-            className="group flex flex-col bg-white/10 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden transition-all duration-300"
+            className={`group flex flex-col bg-white/10 backdrop-blur-lg border rounded-2xl overflow-hidden transition-all duration-300 ${
+              proj.featured
+                ? "border-orange-500/40 shadow-[0_0_25px_rgba(249,115,22,0.15)]"
+                : "border-white/10"
+            }`}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={() => handleMouseLeave(index)}
           >
             <div className="relative overflow-hidden aspect-video w-full border-b border-white/10">
-              <img
-                src={proj.img}
-                alt={proj.title}
-                className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-              />
+              {proj.featured && (
+                <span className="absolute top-3 left-3 z-10 flex items-center gap-1.5 text-xs font-semibold bg-gradient-to-r from-orange-500 to-red-600 text-white px-3 py-1 rounded-full shadow-[0_0_15px_rgba(249,115,22,0.5)] animate-pulse">
+                  <i className="fa-solid fa-star text-[10px]"></i>
+                  Featured Project
+                </span>
+              )}
+              {proj.img ? (
+                <img
+                  src={proj.img}
+                  alt={proj.title}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                />
+              ) : (
+                <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-orange-500/20 via-black to-red-600/20 transition-transform duration-700 ease-out group-hover:scale-110">
+                  <span className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent tracking-tight">
+                    {proj.title}
+                  </span>
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
             </div>
 

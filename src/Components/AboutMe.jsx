@@ -59,7 +59,7 @@ export default function AboutMe() {
       id="about"
     >
       <div className="text-center mb-12 md:mb-16">
-        <h1 className="text-4xl md:text-5xl bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold inline-block pb-2">
+        <h1 className="heading-shine text-4xl md:text-5xl bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold inline-block pb-2">
           About Me
         </h1>
         <div className="h-1 w-16 bg-orange-500 mx-auto mt-2 rounded-full"></div>

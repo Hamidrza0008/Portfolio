@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes playwright --version)",
+      "Bash(npm ls *)",
+      "Read(//c/Program Files/**)",
+      "Bash(timeout 30 bash -c 'until curl -sf http://localhost:5183 >/dev/null; do sleep 1; done')",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 PLAYWRIGHT_BROWSERS_PATH=0 npm install playwright@1.61.1 --no-save --loglevel=error)",
+      "Bash(node diag5.js)",
+      "Bash(node diag6.js)",
+      "Bash(node verify3.js)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git reset *)"
+    ]
+  }
+}

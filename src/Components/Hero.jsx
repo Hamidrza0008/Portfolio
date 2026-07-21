@@ -66,7 +66,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto pt-1 sm:pt-2">
           <button
             className="w-full sm:w-36 h-11 sm:h-12 font-semibold bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-xl transition-all duration-300 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] hover:opacity-90 cursor-pointer text-sm sm:text-base"
-            onClick={() => document.getElementById("contactme")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           >
             Hire Me
           </button>

@@ -22,3 +22,14 @@
     transform: translate(-50%, -80%) scale(0.1);
   }
 }
+
+.heading-shine {
+  background-size: 200% auto;
+  animation: heading-shine 5s linear infinite;
+}
+
+@keyframes heading-shine {
+  to {
+    background-position: -200% center;
+  }
+}

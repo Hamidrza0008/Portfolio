@@ -5,7 +5,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("home"); 
   const [isClicking, setIsClicking] = useState(false); 
-  const navItems = ["home", "skills", "projects", "about", "contactme"];
+  const navItems = ["home", "skills", "experience", "education", "projects", "about", "contact"];
   const observerRef = useRef(null); 
 
   const scrollToSection = (id) => {
@@ -72,7 +72,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md shadow-lg">
-      <div className="max-w-screen-xl mx-auto h-fit py-5 flex items-center justify-between px-6 md:px-14">
+      <div className="relative z-10 max-w-screen-xl mx-auto h-fit py-5 flex items-center justify-between px-6 md:px-14">
         <h2
           onClick={() => scrollToSection("home")}
           className="cursor-pointer bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent text-3xl font-bold nav-item"
@@ -80,12 +80,12 @@ export default function Navbar() {
           Hamid Rza
         </h2>
 
-        <ul className="hidden md:flex items-center space-x-10 text-white font-medium">
+        <ul className="hidden md:flex items-center space-x-4 lg:space-x-7 text-white font-medium text-sm lg:text-base">
           {navItems.map((item, idx) => (
             <li key={idx} className="cursor-pointer nav-item">
               <button
                 onClick={() => scrollToSection(item)}
-                className="relative group px-3 py-1 cursor-pointer"
+                className="relative group px-2 lg:px-3 py-1 cursor-pointer whitespace-nowrap"
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
                 <span
@@ -98,7 +98,7 @@ export default function Navbar() {
         </ul>
 
         <button
-          onClick={() => scrollToSection("contactme")}
+          onClick={() => scrollToSection("contact")}
           className="hidden md:block bg-orange-600 text-white h-10 w-28 rounded-3xl hover:bg-orange-700 transition-all cursor-pointer nav-item"
         >
           Hire Me
@@ -113,8 +113,15 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`fixed top-0 left-0 w-64 h-screen
-          bg-black/50 backdrop-blur-4xl border border-white/20 shadow-2xl text-white p-6 pt-24 space-y-6
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden
+          ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+        `}
+      ></div>
+
+      <div
+        className={`fixed top-0 left-0 w-64 h-screen overflow-y-auto
+          bg-black/95 backdrop-blur-xl border border-white/20 shadow-2xl text-white p-6 pt-24 pb-8 space-y-3
           transform transition-all duration-300 md:hidden
           ${open ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}
         `}
@@ -134,7 +141,7 @@ export default function Navbar() {
         ))}
 
         <button
-          onClick={() => scrollToSection("contactme")}
+          onClick={() => scrollToSection("contact")}
           className="cursor-pointer bg-orange-600 text-white w-full py-2 rounded-2xl hover:bg-orange-700 transition"
         >
           Hire Me
