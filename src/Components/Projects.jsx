@@ -5,15 +5,17 @@ import lotuscakesin from "../assets/projectImg/Lotus Cakes.png";
 import ecommerce from "../assets/projectImg/e-Commerce.png";
 import formbuilder from "../assets/projectImg/formbuilder.png";
 import taskro from "../assets/projectImg/Taskro.png"
+import devreview from "../assets/projectImg/devreview.png"
 
 const projectsData = [
   {
+    img:devreview,
     featured: true,
     title: "DevReview",
     desc: "DevReview is a modern full-stack developer community platform where developers showcase projects, receive feedback, discover other developers, and build a professional portfolio. It ships secure signup/login with email OTP verification, JWT & cookie-based authentication, forgot/reset password, and full profile + project CRUD with a like & review system. Search and filtering power project discovery, Cloudinary handles image uploads, and every route is protected with a fully responsive dashboard built for production.",
     tags: ["Next.js", "Node.js", "Express.js", "MongoDB", "JWT & OTP Auth", "Cloudinary"],
-    liveLink: "https://dev-reiview.vercel.app",
-    codeLink: "https://github.com/hamid008/DevReview",
+    liveLink: "https://dev-re-view.vercel.app",
+    codeLink: "https://github.com/hamidrza008/DevReview",
   },
   {
     img: lotuscakesin,
@@ -39,14 +41,14 @@ const projectsData = [
     liveLink: "https://hamidrza0008.github.io/E-Commerce/",
     codeLink: "https://github.com/Hamidrza0008",
   },
-  {
-    img: formbuilder,
-    title: "Form Builder",
-    desc: "I built a Form Builder app using React with useState, useEffect, routing, and localStorage. Users can create custom forms with dynamic fields, manage them, and collect responses. It includes an Admin Dashboard for counts and response viewing, a public form page for submissions, and features like delete, open response, and data persistence.",
-    tags: ["React", "LocalStorage", "Tailwind CSS", "CSS Modules"],
-    liveLink: "https://hamidrza0008.github.io/Form-Builder/",
-    codeLink: "https://github.com/Hamidrza0008",
-  },
+  // {
+  //   img: formbuilder,
+  //   title: "Form Builder",
+  //   desc: "I built a Form Builder app using React with useState, useEffect, routing, and localStorage. Users can create custom forms with dynamic fields, manage them, and collect responses. It includes an Admin Dashboard for counts and response viewing, a public form page for submissions, and features like delete, open response, and data persistence.",
+  //   tags: ["React", "LocalStorage", "Tailwind CSS", "CSS Modules"],
+  //   liveLink: "https://hamidrza0008.github.io/Form-Builder/",
+  //   codeLink: "https://github.com/Hamidrza0008",
+  // },
 ];
 
 export default function Projects() {
@@ -142,7 +144,7 @@ export default function Projects() {
                 <img
                   src={proj.img}
                   alt={proj.title}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="h-full p-4 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               ) : (
                 <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-orange-500/20 via-black to-red-600/20 transition-transform duration-700 ease-out group-hover:scale-110">

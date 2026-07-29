@@ -84,7 +84,7 @@ export default function Contact() {
             <a href="https://github.com/Hamidrza0008" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-xl hover:text-white transition-all duration-300 hover:scale-110">
               <i className="fa-brands fa-github"></i>
             </a>
-            <a href="https://www.linkedin.com/in/name/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-xl hover:text-blue-500 transition-all duration-300 hover:scale-110">
+            <a href="https://www.linkedin.com/in/hamid-rza-76303b2a7/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-xl hover:text-blue-500 transition-all duration-300 hover:scale-110">
               <i className="fa-brands fa-linkedin"></i>
             </a>
             <a href="https://www.instagram.com/hamid___0008" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-xl hover:text-pink-500 transition-all duration-300 hover:scale-110">

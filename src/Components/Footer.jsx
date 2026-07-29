@@ -44,7 +44,7 @@ export default function Footer() {
               <i className="fa-brands fa-github"></i>
             </a>
             <a 
-              href="https://www.linkedin.com/in/name/" 
+              href="https://www.linkedin.com/in/hamid-rza-76303b2a7/" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-neutral-400 text-xl hover:text-blue-500 transition-all duration-300 hover:scale-110"

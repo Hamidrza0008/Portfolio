@@ -25,11 +25,34 @@ const experienceData = [
 
 export default function Experience() {
   const containerRef = useRef(null);
+  const timelineRef = useRef(null);
   const cardsRef = useRef([]);
+  const trackRef = useRef(null);
   const lineRef = useRef(null);
 
   useEffect(() => {
     const cards = cardsRef.current;
+
+    const updateLineHeight = () => {
+      const timeline = timelineRef.current;
+      const lastCard = cards[cards.length - 1];
+      if (!timeline || !lastCard) return;
+      const timelineRect = timeline.getBoundingClientRect();
+      const lastCardRect = lastCard.getBoundingClientRect();
+      // Stop the line exactly at the center of the last node's icon (top-0, w-10 h-10)
+      const iconCenter = lastCardRect.top - timelineRect.top + 20;
+      const height = Math.max(iconCenter - 8, 0); // 8px accounts for the track's top-2 offset
+      if (trackRef.current) trackRef.current.style.height = `${height}px`;
+      if (lineRef.current) lineRef.current.style.height = `${height}px`;
+    };
+
+    updateLineHeight();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateLineHeight();
+      ScrollTrigger.refresh();
+    });
+    if (timelineRef.current) resizeObserver.observe(timelineRef.current);
 
     gsap.fromTo(
       cards,
@@ -61,6 +84,7 @@ export default function Experience() {
     });
 
     return () => {
+      resizeObserver.disconnect();
       lineTween.scrollTrigger && lineTween.scrollTrigger.kill();
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === containerRef.current) st.kill();
@@ -83,11 +107,14 @@ export default function Experience() {
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto relative">
-        <div className="absolute left-[19px] sm:left-6 top-2 bottom-2 w-[2px] bg-white/10"></div>
+      <div className="max-w-4xl mx-auto relative" ref={timelineRef}>
+        <div
+          ref={trackRef}
+          className="absolute left-[19px] sm:left-6 top-2 w-[2px] bg-white/10"
+        ></div>
         <div
           ref={lineRef}
-          className="absolute left-[19px] sm:left-6 top-2 bottom-2 w-[2px] bg-gradient-to-b from-orange-500 to-red-600"
+          className="absolute left-[19px] sm:left-6 top-2 w-[2px] bg-gradient-to-b from-orange-500 to-red-600"
         ></div>
 
         {experienceData.map((exp, idx) => (
