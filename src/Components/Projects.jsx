@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 import lotuscakesin from "../assets/projectImg/Lotus Cakes.png";
-import ecommerce from "../assets/projectImg/e-Commerce.png";
+import ecommerce from "../assets/projectImg/E-Commerce.png";
 import formbuilder from "../assets/projectImg/formbuilder.png";
 import taskro from "../assets/projectImg/Taskro.png"
 import devreview from "../assets/projectImg/devreview.png"
